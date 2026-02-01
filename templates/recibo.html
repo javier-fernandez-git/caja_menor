@@ -1,0 +1,47 @@
+<html>
+<head>
+<style>
+body { font-family: Arial; font-size: 12px; }
+table { width: 100%; border-collapse: collapse; }
+td, th { border: 1px solid black; padding: 4px; }
+.header { text-align: center; font-weight: bold; }
+</style>
+</head>
+
+<body>
+
+<div class="header">
+CAJA MENOR<br>
+SOLICITUD DE EGRESOS PARA GASTOS GENERALES DE OBRA
+</div>
+
+<p>
+<b>Centro de costos:</b> {{ centro_costos }}<br>
+<b>Beneficiario:</b> {{ beneficiario }}<br>
+<b>Actividad:</b> {{ actividad }}<br>
+<b>Consecutivo:</b> {{ consecutivo }}
+</p>
+
+<table>
+<tr>
+<th>#</th><th>Fecha</th><th>Item</th><th>Descripción</th>
+<th>Cant</th><th>Valor</th>
+</tr>
+
+{% for m in movimientos %}
+<tr>
+<td>{{ loop.index }}</td>
+<td>{{ m.fecha }}</td>
+<td>{{ m.item }}</td>
+<td>{{ m.descripcion }}</td>
+<td>{{ m.cantidad }}</td>
+<td>{{ m.total }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<p><b>TOTAL:</b> {{ total }}</p>
+<p><b>EN LETRAS:</b> {{ total_letras }}</p>
+
+</body>
+</html>
