@@ -1,1 +1,5 @@
 fecha,obra,item,cantidad,valor_unitario,total
+
+fecha,item,descripcion,cantidad,valor
+2026-02-10,GASTOS MENORES,DEL 03/09/2025 AL 03/09/2025,1,79000
+
