@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Caja Menor | Interfaz gráfica</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --muted: #94a3b8;
+      --text: #e5e7eb;
+      --primary: #22c55e;
+      --secondary: #38bdf8;
+      --border: #1f2937;
+      --chip: #1e293b;
+      --danger: #ef4444;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px circle at 10% 0%, #1e293b 0%, var(--bg) 50%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.2rem, 2vw, 1.8rem);
+      letter-spacing: .2px;
+    }
+
+    .badge {
+      padding: .35rem .7rem;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.16);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      font-size: .82rem;
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: .95rem;
+    }
+
+    .card {
+      grid-column: span 12;
+      background: rgba(17, 24, 39, .86);
+      border: 1px solid var(--border);
+      border-radius: .9rem;
+      padding: 1rem;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 10px 25px rgba(2, 6, 23, .25);
+    }
+
+    .card h2 {
+      margin: 0 0 .8rem;
+      font-size: 1rem;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: .75rem;
+      margin-bottom: .75rem;
+    }
+
+    .field { grid-column: span 12; }
+
+    label {
+      display: block;
+      margin-bottom: .35rem;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    input, select {
+      width: 100%;
+      border: 1px solid #334155;
+      background: #0b1220;
+      color: var(--text);
+      border-radius: .65rem;
+      padding: .62rem .72rem;
+      font-size: .92rem;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, .2);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+      margin-top: .55rem;
+    }
+
+    button {
+      border: 1px solid transparent;
+      border-radius: .6rem;
+      padding: .58rem .84rem;
+      font-weight: 600;
+      font-size: .86rem;
+      cursor: pointer;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #052e16;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #bae6fd;
+      border-color: #0ea5e9;
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: #fecaca;
+      border-color: var(--danger);
+    }
+
+    .output {
+      margin-top: .75rem;
+      border: 1px dashed #334155;
+      border-radius: .65rem;
+      padding: .8rem;
+      background: #020617;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: .83rem;
+      white-space: pre-wrap;
+      min-height: 3.5rem;
+    }
+
+    .mini {
+      color: var(--muted);
+      font-size: .8rem;
+      margin-top: .4rem;
+    }
+
+    .chips {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin-top: .6rem;
+    }
+
+    .chip {
+      background: var(--chip);
+      border: 1px solid #334155;
+      border-radius: .5rem;
+      font-size: .78rem;
+      padding: .3rem .55rem;
+      color: #cbd5e1;
+    }
+
+    @media (min-width: 760px) {
+      .card.span-6 { grid-column: span 6; }
+      .field.span-6 { grid-column: span 6; }
+      .field.span-4 { grid-column: span 4; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="header">
+      <div>
+        <h1>Panel de Caja Menor</h1>
+        <p class="mini">Interfaz ligera para operar el flujo diario y generar comandos listos para ejecutar en terminal.</p>
+      </div>
+      <span class="badge">GUI + CLI</span>
+    </section>
+
+    <section class="grid">
+      <article class="card span-6">
+        <h2>1) Registrar movimiento (asistente)</h2>
+        <div class="row">
+          <div class="field span-6">
+            <label for="obra">Obra</label>
+            <input id="obra" type="text" placeholder="OBRA 1" />
+          </div>
+          <div class="field span-6">
+            <label for="item">Ítem</label>
+            <input id="item" type="text" placeholder="ALIMENTACION 12000" />
+          </div>
+          <div class="field span-4">
+            <label for="cantidad">Cantidad</label>
+            <input id="cantidad" type="number" min="1" value="1" />
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn-primary" onclick="buildMovementCommand()">Generar comando</button>
+          <button class="btn-secondary" onclick="copyOutput('out-mov')">Copiar</button>
+          <button class="btn-danger" onclick="clearFields(['obra','item','cantidad'],'out-mov')">Limpiar</button>
+        </div>
+        <div id="out-mov" class="output">Completa los campos para generar el comando de ejemplo.</div>
+      </article>
+
+      <article class="card span-6">
+        <h2>2) Operaciones rápidas</h2>
+        <div class="chips">
+          <span class="chip">Consecutivo</span>
+          <span class="chip">Recibo HTML</span>
+          <span class="chip">Recibo PDF</span>
+          <span class="chip">Resumen por centro de costos</span>
+        </div>
+        <div class="actions">
+          <button class="btn-secondary" onclick="setOutput('out-fast','python src/consecutivo.py')">Consecutivo</button>
+          <button class="btn-secondary" onclick="setOutput('out-fast','python src/generar_html.py')">Generar HTML</button>
+          <button class="btn-secondary" onclick="setOutput('out-fast','python src/generar_pdf.py')">Generar PDF</button>
+          <button class="btn-secondary" onclick="setOutput('out-fast','python src/resumen.py')">Resumen</button>
+          <button class="btn-primary" onclick="copyOutput('out-fast')">Copiar comando</button>
+        </div>
+        <div id="out-fast" class="output">Selecciona una acción para mostrar el comando.</div>
+      </article>
+
+      <article class="card">
+        <h2>3) Flujo recomendado</h2>
+        <div class="output">1. Registrar movimiento(s) en data/movimientos.csv.
+2. Consultar consecutivo: python src/consecutivo.py
+3. Generar HTML: python src/generar_html.py
+4. Convertir a PDF: python src/generar_pdf.py
+5. Revisar resumen: python src/resumen.py</div>
+        <p class="mini">Tip: abre este archivo en tu navegador y úsalo como panel operativo diario. No reemplaza la CLI; la complementa.</p>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    function setOutput(id, text) {
+      document.getElementById(id).textContent = text;
+    }
+
+    function buildMovementCommand() {
+      const obra = document.getElementById('obra').value.trim() || 'OBRA 1';
+      const item = document.getElementById('item').value.trim() || 'ALIMENTACION 12000';
+      const cantidad = document.getElementById('cantidad').value || '1';
+
+      const command = [
+        'python -c "from calculos import cargar_descripciones; from movimientos import registrar_movimiento; ',
+        "d=cargar_descripciones('data/descriciones.cvs'); ",
+        `print(registrar_movimiento(obra='${obra}', item='${item}', cantidad=${cantidad}, descripciones=d))"`
+      ].join('');
+
+      setOutput('out-mov', command);
+    }
+
+    async function copyOutput(id) {
+      const text = document.getElementById(id).textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        const current = text;
+        setOutput(id, `${current}\n\n✅ Copiado al portapapeles.`);
+      } catch {
+        setOutput(id, `${text}\n\n⚠️ No se pudo copiar automáticamente. Copia manualmente.`);
+      }
+    }
+
+    function clearFields(fields, outputId) {
+      fields.forEach((field) => {
+        const el = document.getElementById(field);
+        if (!el) return;
+        el.value = el.type === 'number' ? '1' : '';
+      });
+      setOutput(outputId, 'Campos limpiados.');
+    }
+  </script>
+</body>
+</html>
