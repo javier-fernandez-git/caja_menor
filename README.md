@@ -1,11 +1,17 @@
 # Caja Menor
 
-Sistema básico para gestionar caja menor por obra. El flujo actual permite:
+Sistema para gestionar caja menor por obra. Ahora puedes trabajar tanto por línea de comandos como desde una interfaz gráfica ligera para usuarios operativos.
 
-- Registrar movimientos y calcular totales con base en un listado de ítems.
-- Consultar el consecutivo de recibos.
-- Generar un recibo en HTML y convertirlo a PDF.
-- Obtener un resumen de gastos por centro de costos.
+## Novedades destacadas
+
+- ✅ **Interfaz gráfica ligera (GUI)** en `ui/index.html`.
+- ✅ **Compatibilidad total con CLI** para usuarios técnicos.
+- ✅ Flujo guiado para:
+  - registrar movimientos,
+  - consultar consecutivo,
+  - generar recibo HTML,
+  - convertir recibo a PDF,
+  - revisar resumen por centro de costos.
 
 ## Estructura del proyecto
 
@@ -13,6 +19,7 @@ Sistema básico para gestionar caja menor por obra. El flujo actual permite:
 - `data/`: archivos CSV con la información de movimientos, recibos e ítems.
 - `templates/`: plantilla HTML usada para generar el recibo.
 - `output/`: archivos generados (HTML/PDF).
+- `ui/`: interfaz gráfica de apoyo para operación diaria.
 
 ## Requisitos
 
@@ -37,7 +44,16 @@ Los scripts leen y escriben en los CSV de `data/`:
 
 Asegúrate de que los encabezados de los CSV coincidan con los que se esperan en cada script.
 
-## Uso
+## Uso por interfaz gráfica (recomendado para usuario final)
+
+1. Abre el archivo `ui/index.html` en tu navegador.
+2. Usa el asistente para preparar comandos de registro de movimientos.
+3. Ejecuta los comandos desde tu terminal en la raíz del proyecto.
+4. Utiliza los botones de “Operaciones rápidas” para copiar comandos frecuentes.
+
+> Nota: la GUI está pensada como panel operativo y no reemplaza la ejecución de Python en terminal.
+
+## Uso por línea de comandos (CLI)
 
 ### 1. Calcular totales y registrar movimientos
 
@@ -97,3 +113,4 @@ y `data/movimientos.csv`.
 
 - Los scripts actuales asumen rutas relativas (ejecuta los comandos desde la raíz del proyecto).
 - Revisa los CSV de ejemplo en `data/` para entender los formatos esperados.
+- Consulta `CHANGELOG.md` para revisar versiones y cambios recientes.
