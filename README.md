@@ -28,7 +28,16 @@ Sistema para gestionar caja menor por obra. Ahora puedes trabajar tanto por lín
   - `weasyprint` para generar PDF (`src/generar_pdf.py`).
   - `num2text` para convertir totales a letras (`src/recibo.py`).
 
-Instalación de dependencias (ejemplo):
+Instalación de dependencias (recomendado):
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # En Windows: .venv\Scripts\activate
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+Si prefieres instalar manualmente:
 
 ```bash
 pip install weasyprint num2text
@@ -61,6 +70,9 @@ El módulo `src/movimientos.py` registra un movimiento en `data/movimientos.csv`
 Ejemplo en un script interactivo:
 
 ```python
+import sys
+sys.path.append('src')
+
 from calculos import cargar_descripciones
 from movimientos import registrar_movimiento
 
@@ -74,6 +86,13 @@ registro_total = registrar_movimiento(
 )
 
 print(registro_total)
+```
+
+
+### Prueba rápida de registro desde terminal
+
+```bash
+python -c "import sys; sys.path.append('src'); from calculos import cargar_descripciones; from movimientos import registrar_movimiento; d=cargar_descripciones('data/descriciones.cvs'); print(registrar_movimiento(obra='OBRA 1', item='ALIMENTACION 12000', cantidad=1, descripciones=d))"
 ```
 
 ### 2. Obtener el consecutivo de recibo

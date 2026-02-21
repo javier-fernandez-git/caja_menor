@@ -265,7 +265,7 @@
       const cantidad = document.getElementById('cantidad').value || '1';
 
       const command = [
-        'python -c "from calculos import cargar_descripciones; from movimientos import registrar_movimiento; ',
+        'python -c "import sys; sys.path.append(\'src\'); from calculos import cargar_descripciones; from movimientos import registrar_movimiento; ',
         "d=cargar_descripciones('data/descriciones.cvs'); ",
         `print(registrar_movimiento(obra='${obra}', item='${item}', cantidad=${cantidad}, descripciones=d))"`
       ].join('');
