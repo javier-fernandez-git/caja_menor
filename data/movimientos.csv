@@ -3,3 +3,5 @@ fecha,obra,item,cantidad,valor_unitario,total
 fecha,item,descripcion,cantidad,valor
 2026-02-10,GASTOS MENORES,DEL 03/09/2025 AL 03/09/2025,1,79000
 
+2026-02-21,Mantenimiento placa huella,ALIMENTACION 12000,1,12000.0,12000.0
+2026-02-21,OBRA 1,ALMUERZOS OBRA,1,18000.0,18000.0
