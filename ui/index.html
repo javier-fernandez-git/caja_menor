@@ -266,7 +266,7 @@
 
       const command = [
         'python -c "import sys; sys.path.append(\'src\'); from calculos import cargar_descripciones; from movimientos import registrar_movimiento; ',
-        "d=cargar_descripciones('data/descriciones.cvs'); ",
+        "d=cargar_descripciones('data/descripciones.cvs'); ",
         `print(registrar_movimiento(obra='${obra}', item='${item}', cantidad=${cantidad}, descripciones=d))"`
       ].join('');
 

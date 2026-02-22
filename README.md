@@ -47,7 +47,7 @@ pip install weasyprint num2text
 
 Los scripts leen y escriben en los CSV de `data/`:
 
-- `data/descriciones.cvs`: listado de ítems y valor unitario. Se usa en `src/calculos.py`.
+- `data/descripciones.cvs`: listado de ítems y valor unitario. Se usa en `src/calculos.py`.
 - `data/movimientos.csv`: movimientos registrados (fecha, obra, ítem, cantidad, valor unitario, total).
 - `data/recibos.csv`: consecutivo y metadatos del recibo.
 
@@ -76,7 +76,7 @@ sys.path.append('src')
 from calculos import cargar_descripciones
 from movimientos import registrar_movimiento
 
-descripciones = cargar_descripciones('data/descriciones.cvs')
+descripciones = cargar_descripciones('data/descripciones.cvs')
 
 registro_total = registrar_movimiento(
     obra='OBRA 1',
@@ -92,7 +92,7 @@ print(registro_total)
 ### Prueba rápida de registro desde terminal
 
 ```bash
-python -c "import sys; sys.path.append('src'); from calculos import cargar_descripciones; from movimientos import registrar_movimiento; d=cargar_descripciones('data/descriciones.cvs'); print(registrar_movimiento(obra='OBRA 1', item='ALIMENTACION 12000', cantidad=1, descripciones=d))"
+python -c "import sys; sys.path.append('src'); from calculos import cargar_descripciones; from movimientos import registrar_movimiento; d=cargar_descripciones('data/descripciones.cvs'); print(registrar_movimiento(obra='OBRA 1', item='ALIMENTACION 12000', cantidad=1, descripciones=d))"
 ```
 
 ### 2. Obtener el consecutivo de recibo
