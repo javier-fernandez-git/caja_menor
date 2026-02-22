@@ -209,7 +209,7 @@
           </div>
           <div class="field span-6">
             <label for="item">Ítem</label>
-            <input id="item" type="text" placeholder="ALIMENTACION 12000" />
+            <select id="item" aria-label="Selecciona un ítem disponible"></select>
           </div>
           <div class="field span-4">
             <label for="cantidad">Cantidad</label>
@@ -222,6 +222,7 @@
           <button class="btn-danger" onclick="clearFields(['obra','item','cantidad'],'out-mov')">Limpiar</button>
         </div>
         <div id="out-mov" class="output">Completa los campos para generar el comando de ejemplo.</div>
+        <p id="item-help" class="mini">Cargando ítems desde <code>data/descripciones.cvs</code>...</p>
       </article>
 
       <article class="card span-6">
@@ -255,18 +256,72 @@
   </main>
 
   <script>
+    const defaultItem = 'ALIMENTACION 12000';
+
     function setOutput(id, text) {
       document.getElementById(id).textContent = text;
     }
 
+    function setItemHelp(message) {
+      const help = document.getElementById('item-help');
+      if (help) help.textContent = message;
+    }
+
+    function parseItemsCsv(csvText) {
+      return csvText
+        .split(/\r?\n/)
+        .slice(1)
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) => line.split(',')[0]?.trim())
+        .filter(Boolean);
+    }
+
+    function updateItemOptions(items) {
+      const select = document.getElementById('item');
+      select.innerHTML = '';
+
+      const validItems = Array.from(new Set(items));
+      if (!validItems.length) {
+        const option = document.createElement('option');
+        option.value = defaultItem;
+        option.textContent = `${defaultItem} (por defecto)`;
+        select.appendChild(option);
+        setItemHelp('No se encontraron ítems en data/descripciones.cvs. Se usará la opción por defecto.');
+        return;
+      }
+
+      validItems.forEach((item, index) => {
+        const option = document.createElement('option');
+        option.value = item;
+        option.textContent = item;
+        if (index === 0) option.selected = true;
+        select.appendChild(option);
+      });
+
+      setItemHelp(`Ítems disponibles cargados: ${validItems.length}.`);
+    }
+
+    async function loadItemsFromCsv() {
+      try {
+        const response = await fetch('../data/descripciones.cvs', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const csvText = await response.text();
+        updateItemOptions(parseItemsCsv(csvText));
+      } catch {
+        updateItemOptions([defaultItem]);
+        setItemHelp('No se pudo leer data/descripciones.cvs automáticamente (si abriste index.html como archivo local, usa un servidor local como `python -m http.server`).');
+      }
+    }
+
     function buildMovementCommand() {
       const obra = document.getElementById('obra').value.trim() || 'OBRA 1';
-      const item = document.getElementById('item').value.trim() || 'ALIMENTACION 12000';
+      const item = document.getElementById('item').value.trim() || defaultItem;
       const cantidad = document.getElementById('cantidad').value || '1';
 
       const command = [
-        'python -c "from calculos import cargar_descripciones; from movimientos import registrar_movimiento; ',
-        "d=cargar_descripciones('data/descriciones.cvs'); ",
+        'python -c "import sys; sys.path.append(\'src\'); from calculos import cargar_descripciones; from movimientos import registrar_movimiento; ',
+        "d=cargar_descripciones('data/descripciones.cvs'); ",
         `print(registrar_movimiento(obra='${obra}', item='${item}', cantidad=${cantidad}, descripciones=d))"`
       ].join('');
 
@@ -288,10 +343,16 @@
       fields.forEach((field) => {
         const el = document.getElementById(field);
         if (!el) return;
+        if (el.tagName === 'SELECT') {
+          el.selectedIndex = 0;
+          return;
+        }
         el.value = el.type === 'number' ? '1' : '';
       });
       setOutput(outputId, 'Campos limpiados.');
     }
+
+    loadItemsFromCsv();
   </script>
 </body>
 </html>

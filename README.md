@@ -28,7 +28,16 @@ Sistema para gestionar caja menor por obra. Ahora puedes trabajar tanto por lín
   - `weasyprint` para generar PDF (`src/generar_pdf.py`).
   - `num2text` para convertir totales a letras (`src/recibo.py`).
 
-Instalación de dependencias (ejemplo):
+Instalación de dependencias (recomendado):
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # En Windows: .venv\Scripts\activate
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+Si prefieres instalar manualmente:
 
 ```bash
 pip install weasyprint num2text
@@ -38,7 +47,7 @@ pip install weasyprint num2text
 
 Los scripts leen y escriben en los CSV de `data/`:
 
-- `data/descriciones.cvs`: listado de ítems y valor unitario. Se usa en `src/calculos.py`.
+- `data/descripciones.cvs`: listado de ítems y valor unitario. Se usa en `src/calculos.py`.
 - `data/movimientos.csv`: movimientos registrados (fecha, obra, ítem, cantidad, valor unitario, total).
 - `data/recibos.csv`: consecutivo y metadatos del recibo.
 
@@ -61,10 +70,13 @@ El módulo `src/movimientos.py` registra un movimiento en `data/movimientos.csv`
 Ejemplo en un script interactivo:
 
 ```python
+import sys
+sys.path.append('src')
+
 from calculos import cargar_descripciones
 from movimientos import registrar_movimiento
 
-descripciones = cargar_descripciones('data/descriciones.cvs')
+descripciones = cargar_descripciones('data/descripciones.cvs')
 
 registro_total = registrar_movimiento(
     obra='OBRA 1',
@@ -74,6 +86,13 @@ registro_total = registrar_movimiento(
 )
 
 print(registro_total)
+```
+
+
+### Prueba rápida de registro desde terminal
+
+```bash
+python -c "import sys; sys.path.append('src'); from calculos import cargar_descripciones; from movimientos import registrar_movimiento; d=cargar_descripciones('data/descripciones.cvs'); print(registrar_movimiento(obra='OBRA 1', item='ALIMENTACION 12000', cantidad=1, descripciones=d))"
 ```
 
 ### 2. Obtener el consecutivo de recibo
